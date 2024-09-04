@@ -27,7 +27,6 @@ namespace MovieRentalFrontend.Controllers
             // Omvandlar JSON till ett objekt av typen List<Movie>();
             var movieList = JsonConvert.DeserializeObject<List<Movie>>(json);
 
-            // returnera listan till vyn som tar emot det för att arbeta med datan.
             return View(movieList);
         }
 
@@ -41,6 +40,10 @@ namespace MovieRentalFrontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Movie movie)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(movie);
+            }
             // konvertera objektet till en JSON-string
             var json = JsonConvert.SerializeObject(movie);
 
@@ -73,6 +76,10 @@ namespace MovieRentalFrontend.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Movie movie)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(movie);
+            }
             var json = JsonConvert.SerializeObject(movie);
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
@@ -83,5 +90,12 @@ namespace MovieRentalFrontend.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var response = await _client.DeleteAsync($"{baseUri}api/movies/deleteMovie/{id}");
+
+            return RedirectToAction("Index");
+        }
     }
 }

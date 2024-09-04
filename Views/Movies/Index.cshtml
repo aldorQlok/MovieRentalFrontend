@@ -5,8 +5,16 @@
     <div class="card" style="width:18rem">
         <div class="card-body">
             <h5 class="card-title">@movie.Title</h5>
+
             <p class="card-text">Release year: @movie.ReleaseYear</p>
-            <a asp-controller="Movies" asp-action="Edit" asp-route-id=@movie.Id>Edit</a>
+            <a asp-controller="Movies" asp-action="Edit" asp-route-id=@movie.Id class="btn btn-warning">Edit</a>
+            @* <a asp-controller="Movies" asp-action="Delete" asp-route-id=@movie.Id class="btn btn-danger">Delete</a> *@
+
+            <form method="post" asp-action="Delete" style="display:inline;">
+                <input type="hidden" name="id" value="@movie.Id"/>
+                <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+
         </div>
     </div>
 }
