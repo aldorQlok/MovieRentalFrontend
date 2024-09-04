@@ -6,6 +6,9 @@
         <div class="card-body">
             <h5 class="card-title">@movie.Title</h5>
             <p class="card-text">Release year: @movie.ReleaseYear</p>
+            <a asp-controller="Movies" asp-action="Edit" asp-route-id=@movie.Id>Edit</a>
         </div>
     </div>
 }
+
+<a asp-action="Create" asp-controller="Movies" class="btn btn-primary">Create</a>

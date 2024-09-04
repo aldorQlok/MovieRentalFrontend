@@ -56,5 +56,32 @@ namespace MovieRentalFrontend.Controllers
             // RedirectToAction("Index", "Home");
             return RedirectToAction("Index");
         }
+
+
+        // movies/edit/4
+        public async Task<IActionResult> Edit(int id)
+        {
+            var response = await _client.GetAsync($"{baseUri}api/movies/movie/{id}");
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            var movie = JsonConvert.DeserializeObject<Movie>(json);
+
+            return View(movie);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Movie movie)
+        {
+            var json = JsonConvert.SerializeObject(movie);
+
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            await _client.PutAsync($"{baseUri}api/movies/updateMovie/{movie.Id}", content);
+
+            return RedirectToAction("Index");
+        }
+
+
     }
 }
